@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        presenter = LoginPresenter()
+        presenter = restorePresenter()
         presenter?.onAttach(this)
 
         binding.loginButton.setOnClickListener {
@@ -49,6 +49,18 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
     @MainThread
     override fun hideProgress() {
         binding.loginButton.isEnabled = true
+    }
+
+    private fun restorePresenter(): LoginPresenter {
+        val presenter = lastNonConfigurationInstance as? LoginPresenter
+        return presenter ?: LoginPresenter()
+    }
+
+    // в этом методе хроним только презентор, вью модель. Не нужно пихать всё подряд. Если что-то
+    // еще должно пережить поворот экрана, то пускай переживает это в презенторе
+    // для фрагмента - ретэйн фрагмент. Об этом позже
+    override fun onRetainCustomNonConfigurationInstance(): Any? {
+        return presenter
     }
 
     private fun hideKeyboard(activity: Activity) {

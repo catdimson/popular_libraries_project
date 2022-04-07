@@ -1,11 +1,17 @@
 package com.example.popular_libraries_project.view
 
+import androidx.annotation.MainThread
+
 class LoginContract {
 
     interface View {
+        @MainThread
         fun setSuccess()
+        @MainThread
         fun setError(error: String)
+        @MainThread
         fun showProgress()
+        @MainThread
         fun hideProgress()
     }
 

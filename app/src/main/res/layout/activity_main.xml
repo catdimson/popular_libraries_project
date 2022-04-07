@@ -48,6 +48,12 @@
         app:layout_constraintGuide_percent="0.97"
         android:orientation="horizontal"/>
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/authorizationGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="login, password, login_button" />
+
     <EditText
         android:id="@+id/login"
         android:layout_width="0dp"

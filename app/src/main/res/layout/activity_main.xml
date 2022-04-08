@@ -85,4 +85,8 @@
         app:layout_constraintBottom_toTopOf="@+id/glBottomBorder_97"
         android:text="@string/login_button_text" />
 
+    <include
+        android:id="@+id/includedLoadingLayout"
+        layout="@layout/loading_layout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

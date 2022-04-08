@@ -43,12 +43,14 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
     @MainThread
     override fun showProgress() {
         binding.loginButton.isEnabled = false
+        binding.includedLoadingLayout.loadingLayout.isVisible = true
         hideKeyboard(this)
     }
 
     @MainThread
     override fun hideProgress() {
         binding.loginButton.isEnabled = true
+        binding.includedLoadingLayout.loadingLayout.isVisible = false
     }
 
     private fun restorePresenter(): LoginPresenter {

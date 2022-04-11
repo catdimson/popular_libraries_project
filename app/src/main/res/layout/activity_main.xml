@@ -52,7 +52,7 @@
         android:id="@+id/authorizationGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="login, password, login_button" />
+        app:constraint_referenced_ids="login, password, login_button, registration_button, forgot_password_button" />
 
     <EditText
         android:id="@+id/login"
@@ -82,8 +82,28 @@
         app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
         app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintBottom_toTopOf="@+id/glBottomBorder_97"
+        app:layout_constraintBottom_toTopOf="@+id/registration_button"
         android:text="@string/login_button_text" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/registration_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
+        app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
+        app:layout_constraintTop_toBottomOf="@+id/login_button"
+        app:layout_constraintBottom_toTopOf="@+id/forgot_password_button"
+        android:text="@string/registration_button_text" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/forgot_password_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
+        app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
+        app:layout_constraintTop_toBottomOf="@+id/registration_button"
+        app:layout_constraintBottom_toTopOf="@+id/glBottomBorder_97"
+        android:text="@string/forgot_password_button_text" />
 
     <include
         android:id="@+id/includedLoadingLayout"

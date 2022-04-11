@@ -23,10 +23,7 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
         setContentView(binding.root)
         presenter = restorePresenter()
         presenter?.onAttach(this)
-
-        binding.loginButton.setOnClickListener {
-            presenter?.onLogin(binding.login.text.toString(), binding.password.text.toString())
-        }
+        initHandlers()
     }
 
     @MainThread
@@ -42,13 +39,14 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
 
     @MainThread
     override fun showProgress() {
-        binding.loginButton.isEnabled = false
+        binding.authorizationGroup.isVisible = false
         binding.includedLoadingLayout.loadingLayout.isVisible = true
         hideKeyboard(this)
     }
 
     @MainThread
     override fun hideProgress() {
+        binding.authorizationGroup.isVisible = true
         binding.loginButton.isEnabled = true
         binding.includedLoadingLayout.loadingLayout.isVisible = false
     }
@@ -72,5 +70,20 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
             view = View(activity)
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun initHandlers() {
+        binding.loginButton.setOnClickListener {
+            presenter?.onLogin(binding.login.text.toString(), binding.password.text.toString())
+        }
+        binding.registrationButton.setOnClickListener {
+            presenter?.onRegistration(binding.login.text.toString(), binding.password.text.toString())
+        }
+        binding.forgotPasswordButton.setOnClickListener {
+            presenter?.onForgotPassword(binding.email.text.toString())
+        }
+        binding.logoutButton.setOnClickListener {
+            presenter?.onLogout()
+        }
     }
 }

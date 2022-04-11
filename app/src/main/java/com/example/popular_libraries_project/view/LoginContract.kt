@@ -19,6 +19,9 @@ class LoginContract {
         // почти все методы начинаются на on...
         fun onAttach(view: View)
         fun onLogin(login: String, password: String)
+        fun onRegistration(login: String, password: String)
+        fun onForgotPassword()
         fun onCredentialsChanged()
+        fun onLogout()
     }
 }

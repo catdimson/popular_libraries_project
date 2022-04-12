@@ -10,9 +10,19 @@ class LoginContract {
         @MainThread
         fun setError(error: String)
         @MainThread
+        fun setSuccessRegistration(text: String)
+        @MainThread
+        fun setSuccessForgot(email: String)
+        @MainThread
         fun showProgress()
         @MainThread
         fun hideProgress()
+        @MainThread
+        fun setLogout()
+        @MainThread
+        fun setForgotPassword()
+        @MainThread
+        fun setErrorForgotPassword(error: String)
     }
 
     interface Presenter {
@@ -21,7 +31,7 @@ class LoginContract {
         fun onLogin(login: String, password: String)
         fun onRegistration(login: String, password: String)
         fun onForgotPassword()
-        fun onCredentialsChanged()
         fun onLogout()
+        fun onSendForgotPassword(email: String)
     }
 }

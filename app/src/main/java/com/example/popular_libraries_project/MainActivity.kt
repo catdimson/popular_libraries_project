@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
     @MainThread
     override fun setSuccess() {
         binding.authorizationGroup.isVisible = false
+        binding.login.text.clear()
+        binding.password.text.clear()
+        binding.logoutGroup.isVisible = true
         binding.root.setBackgroundColor(Color.GREEN)
     }
 
@@ -38,8 +41,32 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
     }
 
     @MainThread
+    override fun setErrorForgotPassword(error: String) {
+        binding.includedLoadingLayout.loadingLayout.isVisible = false
+        binding.sendForgotPasswordGroup.isVisible = true
+        Toast.makeText(this, "ERROR: $error", Toast.LENGTH_LONG).show()
+    }
+
+    @MainThread
+    override fun setSuccessRegistration(text: String) {
+        binding.login.text.clear()
+        binding.password.text.clear()
+        Toast.makeText(this, "SUCCESS: $text", Toast.LENGTH_LONG).show()
+    }
+
+    @MainThread
+    override fun setSuccessForgot(text: String) {
+        binding.email.text.clear()
+        binding.authorizationGroup.isVisible = true
+        binding.includedLoadingLayout.loadingLayout.isVisible = false
+        Toast.makeText(this, "SUCCESS: $text", Toast.LENGTH_LONG).show()
+    }
+
+    @MainThread
     override fun showProgress() {
         binding.authorizationGroup.isVisible = false
+        binding.logoutGroup.isVisible = false
+        binding.sendForgotPasswordGroup.isVisible = false
         binding.includedLoadingLayout.loadingLayout.isVisible = true
         hideKeyboard(this)
     }
@@ -48,6 +75,21 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
     override fun hideProgress() {
         binding.authorizationGroup.isVisible = true
         binding.loginButton.isEnabled = true
+        binding.includedLoadingLayout.loadingLayout.isVisible = false
+    }
+
+    @MainThread
+    override fun setLogout() {
+        binding.root.setBackgroundColor(Color.WHITE)
+        binding.logoutGroup.isVisible = false
+        binding.authorizationGroup.isVisible = true
+    }
+
+    override fun setForgotPassword() {
+        binding.authorizationGroup.isVisible = false
+        binding.login.text.clear()
+        binding.password.text.clear()
+        binding.sendForgotPasswordGroup.isVisible = true
         binding.includedLoadingLayout.loadingLayout.isVisible = false
     }
 
@@ -80,7 +122,10 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
             presenter?.onRegistration(binding.login.text.toString(), binding.password.text.toString())
         }
         binding.forgotPasswordButton.setOnClickListener {
-            presenter?.onForgotPassword(binding.email.text.toString())
+            presenter?.onForgotPassword()
+        }
+        binding.sendForgotPasswordButton.setOnClickListener {
+            presenter?.onSendForgotPassword(binding.email.text.toString());
         }
         binding.logoutButton.setOnClickListener {
             presenter?.onLogout()

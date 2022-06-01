@@ -6,13 +6,157 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLeftBorder_03"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintGuide_percent="0.03"
+        android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glRightBorder_97"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.97"
+        android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glTopBorder_03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.03"
+        android:orientation="horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glBottomBorder_97"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.97"
+        android:orientation="horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glVerticalMiddle_50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.5"
+        android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glHorizontalMiddle_50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.97"
+        android:orientation="horizontal"/>
+
+    <!-- группа для основных элементов экрана -->
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/authorizationGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="login, password, loginButton, registrationButton, forgotPasswordButton" />
+
+    <EditText
+        android:id="@+id/login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
+        app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
+        app:layout_constraintTop_toBottomOf="@+id/glTopBorder_03"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:hint="@string/hint_login_text" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
+        app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        app:layout_constraintTop_toBottomOf="@+id/login"
+        android:hint="@string/hint_password_text" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/loginButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
+        app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintBottom_toTopOf="@+id/registrationButton"
+        android:text="@string/login_button_text" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/registrationButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
+        app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintBottom_toTopOf="@+id/forgotPasswordButton"
+        android:text="@string/registration_button_text" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/forgotPasswordButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
+        app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
+        app:layout_constraintTop_toBottomOf="@+id/registrationButton"
+        app:layout_constraintBottom_toTopOf="@+id/glBottomBorder_97"
+        android:text="@string/forgot_password_button_text" />
+
+    <!-- группа элементов для 'разлогиниться'. На данный момент влючает только одну кнопку 'выйти' -->
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/logoutGroup"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="logoutButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logoutButton"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
+        app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
+        app:layout_constraintTop_toBottomOf="@+id/glBottomBorder_97"
+        app:layout_constraintBottom_toTopOf="@+id/glTopBorder_03"
+        android:text="@string/logout_button_text" />
+
+    <!-- группа элементов для 'отправки пароля на почту' при 'забыли пароль' -->
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/sendForgotPasswordGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="email, sendForgotPasswordButton" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
+        app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
+        app:layout_constraintBottom_toTopOf="@+id/sendForgotPasswordButton"
+        app:layout_constraintTop_toBottomOf="@+id/glTopBorder_03"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:hint="@string/hint_email_text" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sendForgotPasswordButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/glLeftBorder_03"
+        app:layout_constraintRight_toRightOf="@+id/glRightBorder_97"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintBottom_toTopOf="@+id/glBottomBorder_97"
+        android:text="@string/send_mail_password_button_text" />
+
+    <!-- лоадер -->
+    <include
+        android:id="@+id/includedLoadingLayout"
+        layout="@layout/loading_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

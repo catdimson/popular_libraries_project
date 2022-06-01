@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">PopularLibrariesProject</string>
+    <string name="app_name">Популярные библиотеки</string>
+    <string name="hint_login_text">Введите логин</string>
+    <string name="hint_password_text">Введите пароль</string>
+    <string name="hint_email_text">Email</string>
+    <string name="login_button_text">Войти</string>
+    <string name="registration_button_text">Регистрация</string>
+    <string name="forgot_password_button_text">Забыли пароль?</string>
+    <string name="logout_button_text">Выйти</string>
+    <string name="send_mail_password_button_text">Отправиль пароль</string>
 </resources>

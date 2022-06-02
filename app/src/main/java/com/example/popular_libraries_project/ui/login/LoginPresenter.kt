@@ -4,7 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.core.text.isDigitsOnly
 import com.example.popular_libraries_project.domain.entities.User
-import com.example.popular_libraries_project.data.InMemoryUserRepositoryImpl
+import com.example.popular_libraries_project.data.repository.InMemoryUserRepositoryImpl
 import com.example.popular_libraries_project.validations.Validation
 import com.example.popular_libraries_project.validations.ValidationResult
 import java.lang.Thread.sleep

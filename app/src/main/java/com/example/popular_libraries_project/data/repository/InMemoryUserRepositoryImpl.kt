@@ -1,4 +1,4 @@
-package com.example.popular_libraries_project.data
+package com.example.popular_libraries_project.data.repository
 
 import com.example.popular_libraries_project.domain.entities.User
 import com.example.popular_libraries_project.domain.repository.UserRepository

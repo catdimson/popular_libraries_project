@@ -10,7 +10,9 @@ enum class ResponseStatus(
 
     LOGIN_SUCCESS(1, "", true),
     LOGIN_ERROR(2, "Логин или пароль неверен", false),
-    LOGIN_USER_NOT_ACTIVE(3, "Пользователь не активен", false);
+    LOGIN_USER_NOT_ACTIVE(3, "Пользователь не активен", false),
+
+    LOGOUT_SUCCESS(11, "", true);
 
     @JvmName("getCode1")
     private fun getCode(): Int {

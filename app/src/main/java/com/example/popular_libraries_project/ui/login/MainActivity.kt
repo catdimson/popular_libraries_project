@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
 
     private fun restorePresenter(): LoginPresenter {
         val presenter = lastCustomNonConfigurationInstance as? LoginPresenter
-        return presenter ?: LoginPresenter(app.loginUsecase)
+        return presenter ?: LoginPresenter(app.loginUsecase, app.logoutUsecase)
     }
 
     // в этом методе храним только презентор, вью модель. Не нужно пихать всё подряд. Если что-то

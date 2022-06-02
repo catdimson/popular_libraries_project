@@ -1,10 +1,12 @@
 package com.example.popular_libraries_project.ui.login
 
 import com.example.popular_libraries_project.domain.api.LoginUsecase
+import com.example.popular_libraries_project.domain.api.LogoutUsecase
 import com.example.popular_libraries_project.validations.ResponseStatus
 
 class LoginPresenter(
-    private val loginUsecase: LoginUsecase
+    private val loginUsecase: LoginUsecase,
+    private val logoutUsecase: LogoutUsecase
 ): LoginContract.Presenter {
     private var view: LoginContract.View? = null
     private var isSuccess: Boolean = false
@@ -25,11 +27,11 @@ class LoginPresenter(
             val status = ResponseStatus.getStatusByCode(code)
             if (status.isSuccess()) {
                 view?.setSuccess()
-                isSuccess = status.isSuccess()
+                isSuccess = true
                 errorText = status.getText()
             } else {
                 view?.setError(status.getText())
-                isSuccess = status.isSuccess()
+                isSuccess = false
                 errorText = status.getText()
             }
         }
@@ -44,7 +46,14 @@ class LoginPresenter(
     }
 
     override fun onLogout() {
-        TODO("Not yet implemented")
+        view?.showProgress()
+
+        logoutUsecase.logout {
+            view?.setLogout()
+            view?.hideProgress()
+            isSuccess = false
+            errorText = ResponseStatus.getStatusByCode(it).getText()
+        }
     }
 
     override fun onSendForgotPassword(email: String) {

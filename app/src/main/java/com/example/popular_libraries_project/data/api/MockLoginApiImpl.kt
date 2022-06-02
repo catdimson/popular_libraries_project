@@ -25,7 +25,7 @@ class MockLoginApiImpl: LoginApi {
     }
 
     override fun logout(): Int {
-        TODO("Not yet implemented")
+        return 11
     }
 
     override fun forgotPassword(): Int {

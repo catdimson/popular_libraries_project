@@ -1,10 +1,10 @@
-package com.example.popular_libraries_project.domain.api
+package com.example.popular_libraries_project.domain.api.login
 
 import androidx.annotation.MainThread
 
-interface LoginUsecase {
+interface RegisterUsecase {
 
-    fun login(
+    fun register(
         login: String,
         password: String,
         @MainThread callback: (Int) -> Unit

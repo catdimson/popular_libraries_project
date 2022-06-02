@@ -1,7 +1,10 @@
-package com.example.popular_libraries_project.data.api
+package com.example.popular_libraries_project.data.api.login
 
-import com.example.popular_libraries_project.domain.api.LoginApi
+import androidx.core.text.isDigitsOnly
+import com.example.popular_libraries_project.domain.api.login.LoginApi
 import com.example.popular_libraries_project.domain.entities.User
+import com.example.popular_libraries_project.validations.Validation
+import com.example.popular_libraries_project.validations.ValidationResult
 import java.util.*
 
 class MockLoginApiImpl: LoginApi {
@@ -21,7 +24,13 @@ class MockLoginApiImpl: LoginApi {
     }
 
     override fun register(login: String, password: String): Int {
-        TODO("Not yet implemented")
+        var validationResult = checkRegistration(login, password)
+        return if (validationResult == 21) {
+            createUser(login, password)
+            21
+        } else {
+            validationResult
+        }
     }
 
     override fun logout(): Int {
@@ -77,5 +86,32 @@ class MockLoginApiImpl: LoginApi {
             updatedUser?.password = user.password
             return updatedUser
         }
+    }
+
+    private fun checkRegistration(login: String, password: String): Int {
+        if (login.isBlank() || login.isEmpty()) {
+            return 22
+        }
+        if (login.length < 4) {
+            return 23
+        }
+        if (login.isDigitsOnly()) {
+            return 24
+        }
+        if (!(password.isBlank() || password.isEmpty()) && password.isDigitsOnly()) {
+            return 25
+        }
+        if (password.length < 6) {
+            return 26
+        }
+        if (serverUserRepository.findByLogin(login) != null) {
+            return 27
+        }
+        return 21
+    }
+
+    private fun createUser(login: String, password: String) {
+        val user = User(null, login, password, Calendar.getInstance(), true)
+        serverUserRepository.create(user)
     }
 }

@@ -1,6 +1,6 @@
-package com.example.popular_libraries_project.data.api
+package com.example.popular_libraries_project.data.api.login
 
-import com.example.popular_libraries_project.domain.api.LoginApi
+import com.example.popular_libraries_project.domain.api.login.LoginApi
 
 class WebLoginApiImpl: LoginApi {
     override fun login(login: String, password: String): Int {

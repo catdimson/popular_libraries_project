@@ -12,7 +12,16 @@ enum class ResponseStatus(
     LOGIN_ERROR(2, "Логин или пароль неверен", false),
     LOGIN_USER_NOT_ACTIVE(3, "Пользователь не активен", false),
 
-    LOGOUT_SUCCESS(11, "", true);
+    LOGOUT_SUCCESS(11, "", true),
+
+    REGISTRATION_SUCCESS(21, "Регистрация пользователя прошла успешно", true),
+    REGISTRATION_NOT_LOGIN(22, "Введите логин", false),
+    REGISTRATION_NOT_MORE_3_SYMBOLS(23, "Логин должен содержать больше 3 символов", false),
+    REGISTRATION_LOGIN_NOT_ONLY_DIGITS(24, "Логин не должен состоять из одних чисел", false),
+    REGISTRATION_PASSWORD_NOT_ONLY_DIGITS(25, "Пароль не должен состоять из одних чисел", false),
+    REGISTRATION_PASSWORD_NOT_MELEE_6_SYMBOLS(26, "Пароль должен содержать не меньше 6 символов", false),
+    REGISTRATION_DUBLICATE_LOGIN(27, "Пользователь с таким именем уже зарегистрирован в системе", false);
+
 
     @JvmName("getCode1")
     private fun getCode(): Int {

@@ -1,4 +1,4 @@
-package com.example.popular_libraries_project.domain.api
+package com.example.popular_libraries_project.domain.api.login
 
 import androidx.annotation.WorkerThread
 

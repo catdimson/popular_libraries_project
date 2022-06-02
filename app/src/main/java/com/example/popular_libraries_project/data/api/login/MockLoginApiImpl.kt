@@ -24,7 +24,7 @@ class MockLoginApiImpl: LoginApi {
     }
 
     override fun register(login: String, password: String): Int {
-        var validationResult = checkRegistration(login, password)
+        val validationResult = checkRegistration(login, password)
         return if (validationResult == 21) {
             createUser(login, password)
             21
@@ -37,8 +37,8 @@ class MockLoginApiImpl: LoginApi {
         return 11
     }
 
-    override fun forgotPassword(): Int {
-        TODO("Not yet implemented")
+    override fun forgotPassword(email: String): Int {
+        return checkEmail(email)
     }
 
     // Интерфейс, имитирующий работу с юзером на удаленном сервере
@@ -113,5 +113,12 @@ class MockLoginApiImpl: LoginApi {
     private fun createUser(login: String, password: String) {
         val user = User(null, login, password, Calendar.getInstance(), true)
         serverUserRepository.create(user)
+    }
+
+    private fun checkEmail(email: String): Int {
+        if (Regex("""\w{6,}@(yandex.ru|gmail.com|mail.ru)""").find(email) == null) {
+            return 32
+        }
+        return 31
     }
 }

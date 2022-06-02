@@ -14,6 +14,6 @@ interface LoginApi {
     fun logout(): Int
 
     @WorkerThread
-    fun forgotPassword(): Int
+    fun forgotPassword(email: String): Int
 
 }

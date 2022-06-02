@@ -15,7 +15,7 @@ class WebLoginApiImpl: LoginApi {
         TODO("Not yet implemented")
     }
 
-    override fun forgotPassword(): Int {
+    override fun forgotPassword(email: String): Int {
         TODO("Not yet implemented")
     }
 }

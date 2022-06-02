@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
         binding.email.text.clear()
         binding.authorizationGroup.isVisible = true
         binding.includedLoadingLayout.loadingLayout.isVisible = false
+        binding.sendForgotPasswordGroup.isVisible = false
         Toast.makeText(this, "SUCCESS: $text", Toast.LENGTH_LONG).show()
     }
 
@@ -97,7 +98,8 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
         return presenter ?: LoginPresenter(
             app.loginUsecase,
             app.logoutUsecase,
-            app.registerUsecase)
+            app.registerUsecase,
+            app.forgotPasswordUsecase)
     }
 
     // в этом методе храним только презентор, вью модель. Не нужно пихать всё подряд. Если что-то

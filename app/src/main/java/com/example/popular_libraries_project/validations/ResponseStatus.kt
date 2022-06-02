@@ -20,8 +20,10 @@ enum class ResponseStatus(
     REGISTRATION_LOGIN_NOT_ONLY_DIGITS(24, "Логин не должен состоять из одних чисел", false),
     REGISTRATION_PASSWORD_NOT_ONLY_DIGITS(25, "Пароль не должен состоять из одних чисел", false),
     REGISTRATION_PASSWORD_NOT_MELEE_6_SYMBOLS(26, "Пароль должен содержать не меньше 6 символов", false),
-    REGISTRATION_DUBLICATE_LOGIN(27, "Пользователь с таким именем уже зарегистрирован в системе", false);
+    REGISTRATION_DUBLICATE_LOGIN(27, "Пользователь с таким именем уже зарегистрирован в системе", false),
 
+    FORGOT_PASSWORD_SUCCESS(31, "Пароль успешно отправлен на почту", true),
+    FORGOT_PASSWORD_NOT_CORRECT_EMAIL(32, "Некорректный адрес электронной почты", false);
 
     @JvmName("getCode1")
     private fun getCode(): Int {

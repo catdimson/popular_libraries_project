@@ -1,7 +1,5 @@
 package com.example.popular_libraries_project.validations
 
-import java.lang.StringBuilder
-
 class ValidationResult {
 
     private var validations: MutableList<Validation> = mutableListOf()

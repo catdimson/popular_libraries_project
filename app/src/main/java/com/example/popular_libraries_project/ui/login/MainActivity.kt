@@ -1,4 +1,4 @@
-package com.example.popular_libraries_project
+package com.example.popular_libraries_project.ui.login
 
 import android.app.Activity
 import android.graphics.Color
@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.core.view.isVisible
 import com.example.popular_libraries_project.databinding.ActivityMainBinding
-import com.example.popular_libraries_project.presenter.LoginPresenter
-import com.example.popular_libraries_project.view.LoginContract
 
 class MainActivity : AppCompatActivity(), LoginContract.View {
     private lateinit var binding: ActivityMainBinding

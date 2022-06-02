@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.core.view.isVisible
+import com.example.popular_libraries_project.app
 import com.example.popular_libraries_project.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), LoginContract.View {
@@ -92,11 +93,11 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
     }
 
     private fun restorePresenter(): LoginPresenter {
-        val presenter = lastNonConfigurationInstance as? LoginPresenter
-        return presenter ?: LoginPresenter()
+        val presenter = lastCustomNonConfigurationInstance as? LoginPresenter
+        return presenter ?: LoginPresenter(app.loginUsecase)
     }
 
-    // в этом методе хроним только презентор, вью модель. Не нужно пихать всё подряд. Если что-то
+    // в этом методе храним только презентор, вью модель. Не нужно пихать всё подряд. Если что-то
     // еще должно пережить поворот экрана, то пускай переживает это в презенторе
     // для фрагмента - ретэйн фрагмент. Об этом позже
     override fun onRetainCustomNonConfigurationInstance(): Any? {

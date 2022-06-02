@@ -5,15 +5,15 @@ import androidx.annotation.WorkerThread
 interface LoginApi {
 
     @WorkerThread
-    fun login(login: String, password: String): Boolean
+    fun login(login: String, password: String): Int
 
     @WorkerThread
-    fun register(login: String, password: String): Boolean
+    fun register(login: String, password: String): Int
 
     @WorkerThread
-    fun logout(): Boolean
+    fun logout(): Int
 
     @WorkerThread
-    fun forgotPassword(): Boolean
+    fun forgotPassword(): Int
 
 }

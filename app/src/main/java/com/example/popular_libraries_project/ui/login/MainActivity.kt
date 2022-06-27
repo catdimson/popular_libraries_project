@@ -4,6 +4,8 @@ import android.app.Activity
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -12,21 +14,23 @@ import androidx.core.view.isVisible
 import com.example.popular_libraries_project.app
 import com.example.popular_libraries_project.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), LoginContract.View {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var presenter: LoginContract.Presenter? = null
+    private var viewModel: LoginContract.ViewModel? = null
+    private val handler: Handler by lazy {
+        Handler(Looper.getMainLooper())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        presenter = restorePresenter()
-        presenter?.onAttach(this)
+        viewModel = restoreViewModel()
         initHandlers()
+        initSubscribers()
     }
 
-    @MainThread
-    override fun setSuccess() {
+    private fun setSuccess() {
         binding.authorizationGroup.isVisible = false
         binding.login.text.clear()
         binding.password.text.clear()
@@ -34,27 +38,23 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
         binding.root.setBackgroundColor(Color.GREEN)
     }
 
-    @MainThread
-    override fun setError(error: String) {
+    private fun setError(error: String) {
         Toast.makeText(this, "ERROR: $error", Toast.LENGTH_LONG).show()
     }
 
-    @MainThread
-    override fun setErrorForgotPassword(error: String) {
+    private fun setErrorForgotPassword(error: String) {
         binding.includedLoadingLayout.loadingLayout.isVisible = false
         binding.sendForgotPasswordGroup.isVisible = true
         Toast.makeText(this, "ERROR: $error", Toast.LENGTH_LONG).show()
     }
 
-    @MainThread
-    override fun setSuccessRegistration(text: String) {
+    private fun setSuccessRegistration(text: String) {
         binding.login.text.clear()
         binding.password.text.clear()
         Toast.makeText(this, "SUCCESS: $text", Toast.LENGTH_LONG).show()
     }
 
-    @MainThread
-    override fun setSuccessForgot(text: String) {
+    private fun setSuccessForgot(text: String) {
         binding.email.text.clear()
         binding.authorizationGroup.isVisible = true
         binding.includedLoadingLayout.loadingLayout.isVisible = false
@@ -62,8 +62,7 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
         Toast.makeText(this, "SUCCESS: $text", Toast.LENGTH_LONG).show()
     }
 
-    @MainThread
-    override fun showProgress() {
+    private fun showProgress() {
         binding.authorizationGroup.isVisible = false
         binding.logoutGroup.isVisible = false
         binding.sendForgotPasswordGroup.isVisible = false
@@ -71,21 +70,19 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
         hideKeyboard(this)
     }
 
-    @MainThread
-    override fun hideProgress() {
+    private fun hideProgress() {
         binding.authorizationGroup.isVisible = true
         binding.loginButton.isEnabled = true
         binding.includedLoadingLayout.loadingLayout.isVisible = false
     }
 
-    @MainThread
-    override fun setLogout() {
+    private fun setLogout() {
         binding.root.setBackgroundColor(Color.WHITE)
         binding.logoutGroup.isVisible = false
         binding.authorizationGroup.isVisible = true
     }
 
-    override fun setForgotPassword() {
+    private fun setForgotPassword() {
         binding.authorizationGroup.isVisible = false
         binding.login.text.clear()
         binding.password.text.clear()
@@ -93,20 +90,18 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
         binding.includedLoadingLayout.loadingLayout.isVisible = false
     }
 
-    private fun restorePresenter(): LoginPresenter {
-        val presenter = lastCustomNonConfigurationInstance as? LoginPresenter
-        return presenter ?: LoginPresenter(
+    private fun restoreViewModel(): LoginViewModel {
+        val viewModel = lastCustomNonConfigurationInstance as? LoginViewModel
+        return viewModel ?: LoginViewModel(
             app.loginUsecase,
             app.logoutUsecase,
             app.registerUsecase,
-            app.forgotPasswordUsecase)
+            app.forgotPasswordUsecase
+        )
     }
 
-    // в этом методе храним только презентор, вью модель. Не нужно пихать всё подряд. Если что-то
-    // еще должно пережить поворот экрана, то пускай переживает это в презенторе
-    // для фрагмента - ретэйн фрагмент. Об этом позже
     override fun onRetainCustomNonConfigurationInstance(): Any? {
-        return presenter
+        return viewModel
     }
 
     private fun hideKeyboard(activity: Activity) {
@@ -120,19 +115,60 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
 
     private fun initHandlers() {
         binding.loginButton.setOnClickListener {
-            presenter?.onLogin(binding.login.text.toString(), binding.password.text.toString())
+            viewModel?.onLogin(binding.login.text.toString(), binding.password.text.toString())
         }
         binding.registrationButton.setOnClickListener {
-            presenter?.onRegistration(binding.login.text.toString(), binding.password.text.toString())
+            viewModel?.onRegistration(binding.login.text.toString(), binding.password.text.toString())
         }
         binding.forgotPasswordButton.setOnClickListener {
-            presenter?.onForgotPassword()
+            viewModel?.onForgotPassword()
         }
         binding.sendForgotPasswordButton.setOnClickListener {
-            presenter?.onSendForgotPassword(binding.email.text.toString());
+            viewModel?.onSendForgotPassword(binding.email.text.toString());
         }
         binding.logoutButton.setOnClickListener {
-            presenter?.onLogout()
+            viewModel?.onLogout()
+        }
+    }
+
+    private fun initSubscribers() {
+        initShouldShowProgressSubscribe()
+        initLogoutSubscribe()
+        initErrorTextSubscribe()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel?.isSuccess?.unsubscribeAll()
+        viewModel?.errorText?.unsubscribeAll()
+        viewModel?.shouldShowProgress?.unsubscribeAll()
+        viewModel?.isLogout?.unsubscribeAll()
+    }
+
+    private fun initShouldShowProgressSubscribe() {
+        viewModel?.shouldShowProgress?.subscribe(handler) { shouldShow ->
+            if (shouldShow == true) {
+                showProgress()
+            } else {
+                hideProgress()
+            }
+        }
+    }
+
+    private fun initLogoutSubscribe() {
+        viewModel?.isLogout?.subscribe(handler) { isLogout ->
+            if (isLogout == true) {
+                setLogout()
+            }
+        }
+    }
+
+    private fun initErrorTextSubscribe() {
+        viewModel?.errorText?.subscribe(handler) { error ->
+            val success = viewModel?.isSuccess?.value
+            if (success == false) {
+                setError(error)
+            }
         }
     }
 }

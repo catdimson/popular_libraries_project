@@ -5,16 +5,13 @@ import com.example.popular_libraries_project.domain.api.login.ForgotPasswordUsec
 import com.example.popular_libraries_project.domain.api.login.LoginApi
 
 class ForgotPasswordUsecaseImpl(
-    private val api: LoginApi,
-    private val uiHandler: Handler
+    private val api: LoginApi
 ) : ForgotPasswordUsecase {
 
     override fun forgotPassword(email: String, callback: (Int) -> Unit) {
         Thread {
-            uiHandler.post {
-                val result = api.forgotPassword(email)
-                callback(result)
-            }
+            val result = api.forgotPassword(email)
+            callback(result)
         }.start()
     }
 

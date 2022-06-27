@@ -29,4 +29,19 @@ class Publisher<T>(
             subscriber.invoke(value)
         }
     }
+
+    fun unsubscribeAll() {
+        subscribers.clear()
+    }
+
+    fun post(value: T) {
+        if (!isSingle) {
+            hasFirstValue = true
+            this.value = value
+        }
+
+        subscribers.forEach {
+            it.invoke(value)
+        }
+    }
 }

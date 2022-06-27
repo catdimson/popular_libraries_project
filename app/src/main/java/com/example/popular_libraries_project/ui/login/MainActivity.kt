@@ -1,4 +1,4 @@
-package com.example.popular_libraries_project
+package com.example.popular_libraries_project.ui.login
 
 import android.app.Activity
 import android.graphics.Color
@@ -9,9 +9,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.core.view.isVisible
+import com.example.popular_libraries_project.app
 import com.example.popular_libraries_project.databinding.ActivityMainBinding
-import com.example.popular_libraries_project.presenter.LoginPresenter
-import com.example.popular_libraries_project.view.LoginContract
 
 class MainActivity : AppCompatActivity(), LoginContract.View {
     private lateinit var binding: ActivityMainBinding
@@ -59,6 +58,7 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
         binding.email.text.clear()
         binding.authorizationGroup.isVisible = true
         binding.includedLoadingLayout.loadingLayout.isVisible = false
+        binding.sendForgotPasswordGroup.isVisible = false
         Toast.makeText(this, "SUCCESS: $text", Toast.LENGTH_LONG).show()
     }
 
@@ -94,11 +94,15 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
     }
 
     private fun restorePresenter(): LoginPresenter {
-        val presenter = lastNonConfigurationInstance as? LoginPresenter
-        return presenter ?: LoginPresenter()
+        val presenter = lastCustomNonConfigurationInstance as? LoginPresenter
+        return presenter ?: LoginPresenter(
+            app.loginUsecase,
+            app.logoutUsecase,
+            app.registerUsecase,
+            app.forgotPasswordUsecase)
     }
 
-    // в этом методе хроним только презентор, вью модель. Не нужно пихать всё подряд. Если что-то
+    // в этом методе храним только презентор, вью модель. Не нужно пихать всё подряд. Если что-то
     // еще должно пережить поворот экрана, то пускай переживает это в презенторе
     // для фрагмента - ретэйн фрагмент. Об этом позже
     override fun onRetainCustomNonConfigurationInstance(): Any? {

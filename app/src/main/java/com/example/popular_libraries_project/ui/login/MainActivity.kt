@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         binding.root.setBackgroundColor(Color.GREEN)
     }
 
-    private fun setError(error: String) {
+    private fun setError(error: String?) {
         Toast.makeText(this, "ERROR: $error", Toast.LENGTH_LONG).show()
     }
 
@@ -135,6 +135,8 @@ class MainActivity : AppCompatActivity() {
         initShouldShowProgressSubscribe()
         initLogoutSubscribe()
         initErrorTextSubscribe()
+        initShowForgotPasswordElementsSubscribe()
+        initShowSuccessInput()
     }
 
     override fun onDestroy() {
@@ -143,6 +145,7 @@ class MainActivity : AppCompatActivity() {
         viewModel?.errorText?.unsubscribeAll()
         viewModel?.shouldShowProgress?.unsubscribeAll()
         viewModel?.isLogout?.unsubscribeAll()
+        viewModel?.showForgotPassword?.unsubscribeAll()
     }
 
     private fun initShouldShowProgressSubscribe() {
@@ -168,6 +171,22 @@ class MainActivity : AppCompatActivity() {
             val success = viewModel?.isSuccess?.value
             if (success == false) {
                 setError(error)
+            }
+        }
+    }
+
+    private fun initShowForgotPasswordElementsSubscribe() {
+        viewModel?.showForgotPassword?.subscribe(handler) { isShowForgotPassword ->
+            if (isShowForgotPassword == true) {
+                setForgotPassword()
+            }
+        }
+    }
+
+    private fun initShowSuccessInput() {
+        viewModel?.isSuccess?.subscribe(handler) { isSuccessInput ->
+            if (isSuccessInput == true) {
+                setSuccess()
             }
         }
     }

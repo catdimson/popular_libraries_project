@@ -11,6 +11,7 @@ class LoginContract {
         val isSuccess: Publisher<Boolean>
         val errorText: Publisher<String?>
         val isLogout: Publisher<Boolean>
+        val showForgotPassword: Publisher<Boolean>
 
         @MainThread
         fun onLogin(login: String, password: String)

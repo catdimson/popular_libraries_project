@@ -16,7 +16,8 @@ class LoginViewModel(
     override val shouldShowProgress: Publisher<Boolean> = Publisher()
     override val isSuccess: Publisher<Boolean> = Publisher()
     override val errorText: Publisher<String?> = Publisher(true)
-    override val isLogout: Publisher<Boolean> = Publisher(true)
+    override val isLogout: Publisher<Boolean> = Publisher()
+    override val showForgotPassword: Publisher<Boolean> = Publisher()
 
     override fun onLogin(login: String, password: String) {
         shouldShowProgress.post(true)
@@ -35,11 +36,26 @@ class LoginViewModel(
     }
 
     override fun onRegistration(login: String, password: String) {
-        TODO("Not yet implemented")
+        shouldShowProgress.post(true)
+
+        registerUsecase.register(login, password) { code ->
+            shouldShowProgress.post(false)
+            val status = ResponseStatus.getStatusByCode(code)
+
+            if (status.isSuccess()) {
+                view?.setSuccessRegistration(status.getText())
+                isSuccess.post(true)
+                errorText = ""
+            } else {
+                errorText.post(status.getText())
+                isSuccess.post(false)
+            }
+        }
     }
 
     override fun onForgotPassword() {
-        TODO("Not yet implemented")
+        shouldShowProgress.post(true)
+        showForgotPassword.post(true)
     }
 
     override fun onLogout() {
@@ -54,6 +70,6 @@ class LoginViewModel(
     }
 
     override fun onSendForgotPassword(email: String) {
-        TODO("Not yet implemented")
+
     }
 }

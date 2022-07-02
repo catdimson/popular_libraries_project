@@ -18,6 +18,9 @@ class LoginViewModel(
     override val errorText: Publisher<String?> = Publisher(true)
     override val isLogout: Publisher<Boolean> = Publisher()
     override val showForgotPassword: Publisher<Boolean> = Publisher()
+    override val registration: Publisher<Boolean> = Publisher()
+    override val sendForgotPassword: Publisher<Boolean> = Publisher()
+    override val successText: Publisher<String?> = Publisher()
 
     override fun onLogin(login: String, password: String) {
         shouldShowProgress.post(true)
@@ -43,9 +46,8 @@ class LoginViewModel(
             val status = ResponseStatus.getStatusByCode(code)
 
             if (status.isSuccess()) {
-                view?.setSuccessRegistration(status.getText())
                 isSuccess.post(true)
-                errorText = ""
+                registration.post(true)
             } else {
                 errorText.post(status.getText())
                 isSuccess.post(false)
@@ -70,6 +72,17 @@ class LoginViewModel(
     }
 
     override fun onSendForgotPassword(email: String) {
+        shouldShowProgress.post(true)
 
+        forgotPasswordUsecase.forgotPassword(email) { code ->
+            val status = ResponseStatus.getStatusByCode(code)
+            shouldShowProgress.post(false)
+
+            if (status.isSuccess()) {
+                sendForgotPassword.post(true)
+            } else {
+                sendForgotPassword.post(false)
+            }
+        }
     }
 }

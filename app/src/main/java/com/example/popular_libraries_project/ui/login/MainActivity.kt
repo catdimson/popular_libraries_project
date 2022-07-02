@@ -38,28 +38,32 @@ class MainActivity : AppCompatActivity() {
         binding.root.setBackgroundColor(Color.GREEN)
     }
 
-    private fun setError(error: String?) {
+    private fun showError(error: String?) {
         Toast.makeText(this, "ERROR: $error", Toast.LENGTH_LONG).show()
+    }
+
+    private fun showSuccess(success: String?) {
+        Toast.makeText(this, "SUCCESS: $success", Toast.LENGTH_LONG).show()
     }
 
     private fun setErrorForgotPassword(error: String) {
         binding.includedLoadingLayout.loadingLayout.isVisible = false
         binding.sendForgotPasswordGroup.isVisible = true
-        Toast.makeText(this, "ERROR: $error", Toast.LENGTH_LONG).show()
+        showError(error)
     }
 
     private fun setSuccessRegistration(text: String) {
         binding.login.text.clear()
         binding.password.text.clear()
-        Toast.makeText(this, "SUCCESS: $text", Toast.LENGTH_LONG).show()
+        showSuccess(text)
     }
 
-    private fun setSuccessForgot(text: String) {
+    private fun setSuccessForgotPassword(text: String) {
         binding.email.text.clear()
         binding.authorizationGroup.isVisible = true
         binding.includedLoadingLayout.loadingLayout.isVisible = false
         binding.sendForgotPasswordGroup.isVisible = false
-        Toast.makeText(this, "SUCCESS: $text", Toast.LENGTH_LONG).show()
+        showSuccess(text)
     }
 
     private fun showProgress() {
@@ -137,6 +141,8 @@ class MainActivity : AppCompatActivity() {
         initErrorTextSubscribe()
         initShowForgotPasswordElementsSubscribe()
         initShowSuccessInput()
+        initRegistrationSubscribe()
+        initSendForgotPasswordSubscribe()
     }
 
     override fun onDestroy() {
@@ -146,6 +152,8 @@ class MainActivity : AppCompatActivity() {
         viewModel?.shouldShowProgress?.unsubscribeAll()
         viewModel?.isLogout?.unsubscribeAll()
         viewModel?.showForgotPassword?.unsubscribeAll()
+        viewModel?.registration?.unsubscribeAll()
+        viewModel?.sendForgotPassword?.unsubscribeAll()
     }
 
     private fun initShouldShowProgressSubscribe() {
@@ -170,7 +178,7 @@ class MainActivity : AppCompatActivity() {
         viewModel?.errorText?.subscribe(handler) { error ->
             val success = viewModel?.isSuccess?.value
             if (success == false) {
-                setError(error)
+                showError(error)
             }
         }
     }
@@ -187,6 +195,24 @@ class MainActivity : AppCompatActivity() {
         viewModel?.isSuccess?.subscribe(handler) { isSuccessInput ->
             if (isSuccessInput == true) {
                 setSuccess()
+            }
+        }
+    }
+
+    private fun initRegistrationSubscribe() {
+        viewModel?.registration?.subscribe(handler) { isRegistration ->
+            if (isRegistration == true) {
+                setSuccessRegistration("Пользователь зарегистрирован")
+            }
+        }
+    }
+
+    private fun initSendForgotPasswordSubscribe() {
+        viewModel?.sendForgotPassword?.subscribe(handler) { isSendMessage ->
+            if (isSendMessage == true) {
+                setSuccessForgotPassword("Сообщение отправлено на почту")
+            } else {
+                setErrorForgotPassword("Не удачно. Попробуйте еще раз.")
             }
         }
     }

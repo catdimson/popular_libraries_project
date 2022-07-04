@@ -2,8 +2,6 @@ package com.example.popular_libraries_project
 
 import android.app.Application
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import com.example.popular_libraries_project.data.api.login.*
 import com.example.popular_libraries_project.domain.api.login.*
 

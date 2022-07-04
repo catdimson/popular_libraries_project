@@ -2,14 +2,13 @@ package com.example.popular_libraries_project.ui.login
 
 import android.app.Activity
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.annotation.MainThread
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.popular_libraries_project.app
 import com.example.popular_libraries_project.databinding.ActivityMainBinding

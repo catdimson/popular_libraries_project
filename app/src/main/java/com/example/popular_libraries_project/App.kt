@@ -2,8 +2,6 @@ package com.example.popular_libraries_project
 
 import android.app.Application
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import com.example.popular_libraries_project.data.api.login.*
 import com.example.popular_libraries_project.domain.api.login.*
 
@@ -13,19 +11,19 @@ class App : Application() {
     }
 
     val loginUsecase: LoginUsecase by lazy {
-        LoginUsecaseImpl(app.loginApi, Handler(Looper.getMainLooper()))
+        LoginUsecaseImpl(app.loginApi)
     }
 
     val logoutUsecase: LogoutUsecase by lazy {
-        LogoutUsecaseImpl(app.loginApi, Handler(Looper.getMainLooper()))
+        LogoutUsecaseImpl(app.loginApi)
     }
 
     val registerUsecase: RegisterUsecase by lazy {
-        RegisterUsecaseImpl(app.loginApi, Handler(Looper.getMainLooper()))
+        RegisterUsecaseImpl(app.loginApi)
     }
 
     val forgotPasswordUsecase: ForgotPasswordUsecase by lazy {
-        ForgotPasswordUsecaseImpl(app.loginApi, Handler(Looper.getMainLooper()))
+        ForgotPasswordUsecaseImpl(app.loginApi)
     }
 
 }

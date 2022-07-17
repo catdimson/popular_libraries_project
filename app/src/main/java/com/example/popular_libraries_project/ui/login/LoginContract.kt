@@ -1,42 +1,20 @@
 package com.example.popular_libraries_project.ui.login
 
 import androidx.annotation.MainThread
+import com.example.popular_libraries_project.utils.Publisher
 
 class LoginContract {
 
-    interface View {
-        @MainThread
-        fun setSuccess()
+    interface ViewModel {
 
-        @MainThread
-        fun setError(error: String)
-
-        @MainThread
-        fun setSuccessRegistration(text: String)
-
-        @MainThread
-        fun setSuccessForgot(email: String)
-
-        @MainThread
-        fun showProgress()
-
-        @MainThread
-        fun hideProgress()
-
-        @MainThread
-        fun setLogout()
-
-        @MainThread
-        fun setForgotPassword()
-
-        @MainThread
-        fun setErrorForgotPassword(error: String)
-    }
-
-    interface Presenter {
-        // почти все методы начинаются на on...
-        @MainThread
-        fun onAttach(view: View)
+        val shouldShowProgress: Publisher<Boolean>
+        val isSuccess: Publisher<Boolean>
+        val errorText: Publisher<String?>
+        val isLogout: Publisher<Boolean>
+        val showForgotPassword: Publisher<Boolean>
+        val registration: Publisher<Boolean>
+        val sendForgotPassword: Publisher<Boolean>
+        val successText: Publisher<String?>
 
         @MainThread
         fun onLogin(login: String, password: String)

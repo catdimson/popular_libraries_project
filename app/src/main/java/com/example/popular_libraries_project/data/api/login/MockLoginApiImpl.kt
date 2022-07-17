@@ -3,8 +3,6 @@ package com.example.popular_libraries_project.data.api.login
 import androidx.core.text.isDigitsOnly
 import com.example.popular_libraries_project.domain.api.login.LoginApi
 import com.example.popular_libraries_project.domain.entities.User
-import com.example.popular_libraries_project.validations.Validation
-import com.example.popular_libraries_project.validations.ValidationResult
 import java.util.*
 
 class MockLoginApiImpl: LoginApi {

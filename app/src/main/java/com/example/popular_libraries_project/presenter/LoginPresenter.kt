@@ -3,16 +3,17 @@ package com.example.popular_libraries_project.presenter
 import android.os.Handler
 import android.os.Looper
 import androidx.core.text.isDigitsOnly
-import com.example.popular_libraries_project.model.user.User
-import com.example.popular_libraries_project.repository.impl.InMemoryUserRepositoryImpl
+import com.example.popular_libraries_project.domain.entity.User
+import com.example.popular_libraries_project.data.InMemoryUserRepositoryImpl
 import com.example.popular_libraries_project.validations.Validation
 import com.example.popular_libraries_project.validations.ValidationResult
-import com.example.popular_libraries_project.view.LoginContract
+import com.example.popular_libraries_project.ui.LoginContract
 import java.lang.Thread.sleep
 import java.util.*
 
-class LoginPresenter: LoginContract.Presenter {
-    private var repository: InMemoryUserRepositoryImpl = InMemoryUserRepositoryImpl.instance
+class LoginPresenter(
+    private var repository: InMemoryUserRepositoryImpl
+): LoginContract.Presenter {
     private var view: LoginContract.View? = null
     private val uiHandler = Handler(Looper.getMainLooper())
     private var isSuccess: Boolean = false

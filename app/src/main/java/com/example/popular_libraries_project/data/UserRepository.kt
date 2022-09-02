@@ -1,6 +1,6 @@
-package com.example.popular_libraries_project.repository
+package com.example.popular_libraries_project.data
 
-import com.example.popular_libraries_project.model.user.User
+import com.example.popular_libraries_project.domain.entity.User
 
 interface UserRepository {
 

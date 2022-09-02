@@ -1,7 +1,6 @@
-package com.example.popular_libraries_project.repository.impl
+package com.example.popular_libraries_project.data
 
-import com.example.popular_libraries_project.model.user.User
-import com.example.popular_libraries_project.repository.UserRepository
+import com.example.popular_libraries_project.domain.entity.User
 import java.util.*
 
 class InMemoryUserRepositoryImpl: UserRepository {

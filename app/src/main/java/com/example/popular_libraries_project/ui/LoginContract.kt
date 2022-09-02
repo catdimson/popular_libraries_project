@@ -1,4 +1,4 @@
-package com.example.popular_libraries_project.view
+package com.example.popular_libraries_project.ui
 
 import androidx.annotation.MainThread
 

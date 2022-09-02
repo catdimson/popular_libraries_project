@@ -1,4 +1,4 @@
-package com.example.popular_libraries_project
+package com.example.popular_libraries_project.ui
 
 import android.app.Activity
 import android.graphics.Color
@@ -11,7 +11,8 @@ import androidx.annotation.MainThread
 import androidx.core.view.isVisible
 import com.example.popular_libraries_project.databinding.ActivityMainBinding
 import com.example.popular_libraries_project.presenter.LoginPresenter
-import com.example.popular_libraries_project.view.LoginContract
+import com.example.popular_libraries_project.data.InMemoryUserRepositoryImpl
+import com.example.popular_libraries_project.ui.LoginContract
 
 class MainActivity : AppCompatActivity(), LoginContract.View {
     private lateinit var binding: ActivityMainBinding
@@ -95,7 +96,8 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
 
     private fun restorePresenter(): LoginPresenter {
         val presenter = lastNonConfigurationInstance as? LoginPresenter
-        return presenter ?: LoginPresenter()
+        val repository = InMemoryUserRepositoryImpl.instance
+        return presenter ?: LoginPresenter(repository)
     }
 
     // в этом методе хроним только презентор, вью модель. Не нужно пихать всё подряд. Если что-то
